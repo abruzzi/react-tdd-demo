@@ -1,12 +1,9 @@
 import test from 'ava'
 import React from 'react'
 
-import {shallow, mount, configure} from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import {shallow, mount} from 'enzyme'
 
 import App from './App'
-
-configure({adapter: new Adapter()})
 
 test('Search box', t => {
   const wrapper = shallow(<App books={[]} />)
