@@ -6,3 +6,7 @@ const {document} = (new JSDOM('<!doctype html><html><body></body></html>')).wind
 global.document = document;
 global.window = document.defaultView;
 global.navigator = window.navigator;
+
+global.requestAnimationFrame = (callback) => {
+    setTimeout(callback, 0);
+};

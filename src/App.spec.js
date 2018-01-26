@@ -15,7 +15,7 @@ test('Search box', t => {
 })
 
 test('Search book based on title', t => {
-  const books = [{title: 'Implementing Microservice', price: 100}, {title: 'Domain Driven Design', price: 101}]
+  const books = [{title: 'Implementing Microservice', price: 100, id: 1}, {title: 'Domain Driven Design', price: 101, id: 2}]
   const wrapper = mount(<App books={books} />)
 
   t.is(wrapper.find('.book').length, 2)

@@ -9,7 +9,7 @@ import BookList from './BookList'
 configure({adapter: new Adapter()})
 
 test('Render a book', t => {
-    const books = [{title: 'Implementing Microservice', price: 100}]
+    const books = [{title: 'Implementing Microservice', price: 100, id: 1}]
     const wrapper = shallow(<BookList books={books} />)
 
     t.is(wrapper.find('.book').length, 1)
@@ -18,7 +18,7 @@ test('Render a book', t => {
 })
 
 test('Render 2 books', t => {
-  const books = [{title: 'Implementing Microservice', price: 100}, {title: 'Domain Driven Design', price: 101}]
+  const books = [{title: 'Implementing Microservice', price: 100, id: 1}, {title: 'Domain Driven Design', price: 101, id: 2}]
   const wrapper = shallow(<BookList books={books} />)
 
   t.is(wrapper.find('.book').length, 2)
