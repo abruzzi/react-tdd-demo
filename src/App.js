@@ -6,7 +6,9 @@ class App extends Component {
     const { books } = this.props
     return (
       <div className="App">
-        <div className="book">{books[0]}</div>
+        {
+          books.map((book) => <div className="book">{book}</div>)
+        }
       </div>
     );
   }
