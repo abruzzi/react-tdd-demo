@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import BookList from './BookList'
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -23,12 +25,7 @@ class App extends Component {
     return (
       <div className="App">
         <input type="text" onChange={this.filterBook}/>
-        {
-          filtered.map((book) => <div className="book">
-            <h2 className="title">{book.title}</h2>
-            <span className="price">{book.price}</span>
-          </div>)
-        }
+        <BookList books={filtered} />
       </div>
     );
   }
