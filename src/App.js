@@ -18,12 +18,16 @@ class App extends Component {
 
   render() {
     const { books } = this.props
-    const filtered = books.filter((book) => book.indexOf(this.state.term) >= 0)
+    const filtered = books.filter((book) => book.title.indexOf(this.state.term) >= 0)
+    
     return (
       <div className="App">
         <input type="text" onChange={this.filterBook}/>
         {
-          filtered.map((book) => <div className="book">{book}</div>)
+          filtered.map((book) => <div className="book">
+            <h2 className="title">{book.title}</h2>
+            <span className="price">{book.price}</span>
+          </div>)
         }
       </div>
     );
