@@ -8,7 +8,18 @@ import App from './App'
 
 configure({adapter: new Adapter()})
 
-test('shallow render App', t => {
-	const wrapper = shallow(<App />)
-	t.is(wrapper.text(), 'Hello world')
+test('Render a book list', t => {
+	const books = ['Implementing Microservice']
+	const wrapper = shallow(<App books={books} />)
+
+	t.is(wrapper.find('.book').length, 1)
+	t.is(wrapper.find('.book').text(), 'Implementing Microservice')
+})
+
+test('Render another book list', t => {
+  const books = ['Domain Driven Design']
+  const wrapper = shallow(<App books={books} />)
+
+  t.is(wrapper.find('.book').length, 1)
+  t.is(wrapper.find('.book').text(), 'Domain Driven Design')
 })
