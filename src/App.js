@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import { Route } from 'react-router-dom'
+
 import BookList from './BookList'
+import BookDetail from './BookDetail'
 
 class App extends Component {
   constructor(props) {
@@ -25,7 +28,13 @@ class App extends Component {
     return (
       <div className="container">
         <input type="text" onChange={this.filterBook} placeholder="Type to search..."/>
-        <BookList books={filtered} />
+        <main>
+          <Route exact path="/" render={() => <BookList books={filtered} />} />
+          <Route path="/books/:id" render={(event) => {
+            const books = filtered.filter((book) => book.id === parseInt(event.match.params.id, 10))
+            return <BookDetail book={books[0]} />
+          }} />
+        </main>
       </div>
     );
   }
