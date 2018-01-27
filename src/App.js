@@ -23,8 +23,8 @@ class App extends Component {
     const filtered = books.filter((book) => book.title.indexOf(this.state.term) >= 0)
     
     return (
-      <div className="App">
-        <input type="text" onChange={this.filterBook}/>
+      <div className="container">
+        <input type="text" onChange={this.filterBook} placeholder="Type to search..."/>
         <BookList books={filtered} />
       </div>
     );
