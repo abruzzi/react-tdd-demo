@@ -4,8 +4,8 @@ import axios from 'axios'
 
 import {Route} from "react-router-dom";
 
-import BookList from "./BookList";
-import BookDetail from "./BookDetail";
+import BookList from "../components/BookList";
+import BookDetail from "../components/BookDetail";
 
 class App extends Component {
   constructor(props) {

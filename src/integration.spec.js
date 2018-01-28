@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import {mount} from 'enzyme'
 
-import App from './App'
+import App from './containers/App'
 
 import { MemoryRouter } from 'react-router-dom'
 const mountWithRouter = (node) => mount(<MemoryRouter>{node}</MemoryRouter>)
