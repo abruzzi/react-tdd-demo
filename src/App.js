@@ -1,19 +1,26 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, {Component} from "react";
+import "./App.css";
 
-import { Route } from 'react-router-dom'
+import {Route} from "react-router-dom";
 
-import BookList from './BookList'
-import BookDetail from './BookDetail'
+import BookList from "./BookList";
+import BookDetail from "./BookDetail";
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      term: ''
+      term: '',
+      books: []
     }
     this.filterBook = this.filterBook.bind(this)
     this.renderBookDetail = this.renderBookDetail.bind(this)
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:8080/books').then(data => {
+        this.setState({ books: data })
+    })
   }
 
   filterBook(e) {
@@ -23,14 +30,14 @@ class App extends Component {
   }
 
   renderBookDetail(event) {
-    const { books } = this.props
+    const { books } = this.state
     const result = books.filter((book) => book.id === parseInt(event.match.params.id, 10))
 
     return <BookDetail book={result[0]} />
   }
 
   render() {
-    const { books } = this.props
+    const { books } = this.state
     const filtered = books.filter((book) => book.title.indexOf(this.state.term) >= 0)
     
     return (
