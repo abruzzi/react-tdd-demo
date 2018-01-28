@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import "./App.css";
+import axios from 'axios'
 
 import {Route} from "react-router-dom";
 
@@ -18,9 +19,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/books').then(data => {
-        this.setState({ books: data })
-    })
+      axios.get('http://localhost:8080/books').then((res) => {
+          this.setState({ books: res.data })
+      })
   }
 
   filterBook(e) {

@@ -1,6 +1,7 @@
 import test from 'ava'
 import React from 'react'
 import sinon from 'sinon'
+import axios from 'axios'
 
 import {shallow, mount} from 'enzyme'
 
@@ -24,10 +25,10 @@ test('Routes', t => {
 })
 
 test('Fetch data from remote', async t => {
-  const books = [{title: 'Implementing Microservice', price: 100, id: 1}, {title: 'Domain Driven Design', price: 101, id: 2}]
-
+  const books = {data: [{title: 'Implementing Microservice', price: 100, id: 1}, {title: 'Domain Driven Design', price: 101, id: 2}]}
   const promise = Promise.resolve(books);
-    sinon.stub(global, 'fetch').callsFake(() => promise);
+
+  sinon.stub(axios, 'get').callsFake(() => promise)
 
   const wrapper = mountWithRouter(<App />)
 
