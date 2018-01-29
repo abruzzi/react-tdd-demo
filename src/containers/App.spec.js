@@ -1,41 +1,32 @@
-import test from 'ava'
 import React from 'react'
-import sinon from 'sinon'
-import axios from 'axios'
-
 import {shallow, mount} from 'enzyme'
+import { MemoryRouter, Route } from 'react-router-dom'
 
 import App from './App'
 
-import { MemoryRouter, Route } from 'react-router-dom'
 const mountWithRouter = (node) => mount(<MemoryRouter>{node}</MemoryRouter>)
 
-test('Search box', t => {
-  const wrapper = shallow(<App />)
+describe('App', () => {
+    it('Search box', () => {
+        const wrapper = shallow(<App />)
 
-  t.is(wrapper.find('input[type="text"]').length, 1)
-})
+        expect(wrapper.find('input[type="text"]').length).toBe(1)
+    })
 
-test('Routes', t => {
-  const wrapper = shallow(<App />)
+    it('Routes', () => {
+        const wrapper = shallow(<App />)
 
-  t.is(wrapper.find('Route').length, 2)
-  t.is(wrapper.find('Route').at(0).prop('path'), '/')
-  t.is(wrapper.find('Route').at(1).prop('path'), '/books/:id')
-})
+        expect(wrapper.find('Route').length).toBe(2)
+        expect(wrapper.find('Route').at(0).prop('path')).toEqual('/')
+        expect(wrapper.find('Route').at(1).prop('path')).toEqual('/books/:id')
+    })
 
-test('Fetch data from remote', async t => {
-  const books = {data: [{title: 'Implementing Microservice', price: 100, id: 1}, {title: 'Domain Driven Design', price: 101, id: 2}]}
-  const promise = Promise.resolve(books);
+    const flushPromises = () => new Promise(resolve => setImmediate(resolve))
 
-  sinon.stub(axios, 'get').callsFake(() => promise)
-
-  const wrapper = mountWithRouter(<App />)
-
-  promise.then(() => {
-      t.is(wrapper.find('.book').length, 0)
-      wrapper.update();
-  }).then(() => {
-      t.is(wrapper.find('.book').length, 2)
-  });
+    it('Fetch data from remote', async () => {
+        const wrapper = mountWithRouter(<App />)
+        await flushPromises()
+        wrapper.update()
+        expect(wrapper.find('.book').length).toEqual(2)
+    })
 })
