@@ -1,7 +1,6 @@
 import React from 'react'
 import {shallow, mount} from 'enzyme'
 import { MemoryRouter, Route } from 'react-router-dom'
-
 import App from './App'
 
 const mountWithRouter = (node) => mount(<MemoryRouter>{node}</MemoryRouter>)

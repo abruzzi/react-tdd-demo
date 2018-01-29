@@ -37,4 +37,23 @@ describe('Actions', () => {
 
         store.dispatch(fetchBookList())
     })
+
+    xit('fetch data from server with error', (done) => {
+        nock('http://localhost:3000')
+            .get('/books')
+            .replyWithError('Internal Error')
+
+        store.subscribe(() => {
+            const dispatchedActions = store.getActions();
+
+            if (dispatchedActions.length === 2) {
+                expect(dispatchedActions[0].type).toEqual('FETCH_BOOK_LIST_PENDING')
+                expect(dispatchedActions[1].type).toEqual('FETCH_BOOK_LIST_REJECTED')
+
+                done()
+            }
+        })
+
+        store.dispatch(fetchBookList())
+    })
 })
