@@ -21,5 +21,5 @@ server should be running at `http://localhost:8080` provies `/books` with the pa
 - React-router
 - Axios [for network]
 - Sinon [for mock]
-- Enzyme [as test framework]
-- Ava [as test runner]
+- Enzyme [as react testing library]
+- Jest [as test runner]
