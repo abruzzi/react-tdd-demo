@@ -8,7 +8,10 @@
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0"
+    "react-scripts": "1.1.0",
+    "redux-mock-store": "^1.5.1",
+    "redux-promise-middleware": "^5.0.0",
+    "redux-thunk": "^2.2.0"
   },
   "babel": {
     "presets": [
@@ -27,6 +30,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "es6-promise": "^4.2.4",
-    "jsdom": "^11.6.1"
+    "jsdom": "^11.6.1",
+    "nock": "^9.1.6"
   }
 }

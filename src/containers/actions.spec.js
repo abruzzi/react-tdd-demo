@@ -1,6 +1,14 @@
+import store from '../mockStore'
+import nock from 'nock'
+
 import {performSearch, fetchBookList} from './actions'
 
 describe('Actions', () => {
+    afterEach(() => {
+        nock.cleanAll()
+        store.clearActions()
+    })
+
     it('search book action', () => {
         const term = 'Domain'
         const action = performSearch({term})
@@ -9,9 +17,24 @@ describe('Actions', () => {
         expect(action.term).toEqual(term)
     })
 
-    xit('fetch data from server', () => {
-        const action = fetchBookList()
+    it('fetch data from server', (done) => {
+        const data = []
 
-        expect(action.type).toEqual('FETCH_BOOK_LIST')
+        nock('http://localhost:3000')
+            .get('/books')
+            .reply(200, { data })
+
+        store.subscribe(() => {
+            const dispatchedActions = store.getActions();
+
+            if (dispatchedActions.length === 2) {
+                expect(dispatchedActions[0].type).toEqual('FETCH_BOOK_LIST_PENDING')
+                expect(dispatchedActions[1].type).toEqual('FETCH_BOOK_LIST_FULFILLED')
+
+                done()
+            }
+        })
+
+        store.dispatch(fetchBookList())
     })
 })
