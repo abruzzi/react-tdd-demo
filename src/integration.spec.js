@@ -1,16 +1,23 @@
 import React from 'react'
 import {mount} from 'enzyme'
+import axios from 'axios'
 
 import App from './containers/App'
 
 import { MemoryRouter } from 'react-router-dom'
 const mountWithRouter = (node) => mount(<MemoryRouter>{node}</MemoryRouter>)
 
-
 const flushPromises = () => new Promise(resolve => setImmediate(resolve))
 
 describe('Integration tests', () => {
     it('Search book based on title', async () => {
+        const books = [
+            {"title": "Implementing Microservice", "price": 100, "id": 1},
+            {"title": "Domain Driven Design", "price": 102, "id": 2}
+        ]
+
+        axios.get = jest.fn().mockImplementation(() => Promise.resolve({data: books}))
+
         const wrapper = mountWithRouter(<App />)
         await flushPromises()
         wrapper.update()

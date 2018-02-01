@@ -1,11 +1,10 @@
-import store from '../mockStore'
-import nock from 'nock'
+import store, {mockStore} from '../mockStore'
+import axios from 'axios'
 
 import {performSearch, fetchBookList} from './actions'
 
 describe('Actions', () => {
     afterEach(() => {
-        nock.cleanAll()
         store.clearActions()
     })
 
@@ -17,43 +16,34 @@ describe('Actions', () => {
         expect(action.term).toEqual(term)
     })
 
-    it('fetch data from server', (done) => {
+    it('fetch data from server', () => {
         const data = []
 
-        nock('http://localhost:3000')
-            .get('/books')
-            .reply(200, { data })
+        axios.get = jest.fn().mockImplementation(() => Promise.resolve({data}))
 
-        store.subscribe(() => {
-            const dispatchedActions = store.getActions();
+        const expectedActions = [
+            {type: 'FETCH_BOOK_LIST_PENDING'},
+            {type: 'FETCH_BOOK_LIST_FULFILLED', payload: data}
+        ]
 
-            if (dispatchedActions.length === 2) {
-                expect(dispatchedActions[0].type).toEqual('FETCH_BOOK_LIST_PENDING')
-                expect(dispatchedActions[1].type).toEqual('FETCH_BOOK_LIST_FULFILLED')
-
-                done()
-            }
+        const mocked = mockStore({})
+        return mocked.dispatch(fetchBookList()).then(() => {
+            expect(mocked.getActions()).toEqual(expectedActions)
         })
-
-        store.dispatch(fetchBookList())
     })
 
-    xit('fetch data from server with error', (done) => {
-        nock('http://localhost:3000')
-            .get('/books')
-            .replyWithError('Internal Error')
+    it('fetch data from server with error', () => {
+        const err = {message: 'Internal Error'}
+        axios.get = jest.fn().mockImplementation(() => Promise.reject(err))
 
-        store.subscribe(() => {
-            const dispatchedActions = store.getActions();
+        const expectedActions = [
+            {type: 'FETCH_BOOK_LIST_PENDING'},
+            {type: 'FETCH_BOOK_LIST_REJECTED', err}
+        ]
 
-            if (dispatchedActions.length === 2) {
-                expect(dispatchedActions[0].type).toEqual('FETCH_BOOK_LIST_PENDING')
-                expect(dispatchedActions[1].type).toEqual('FETCH_BOOK_LIST_REJECTED')
-
-                done()
-            }
+        const mocked = mockStore({})
+        return mocked.dispatch(fetchBookList()).then(() => {
+            expect(mocked.getActions()).toEqual(expectedActions)
         })
-
-        store.dispatch(fetchBookList())
     })
 })
